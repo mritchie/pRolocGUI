@@ -30,7 +30,13 @@ pRolocVis_compare <- function(object, fcol1, fcol2,
   message("Subsetting MSnSetList to their common feature names")
   object <- commonFeatureNames(object)
   
-  
+  ## Check sampleNames
+  if (length(unique(lapply(object, sampleNames))) != 1) {
+    message(paste("The sampleNames of the datasets are different,",
+               "\nforcing remap = FALSE, please check sampleNames"))
+    remap = FALSE
+  }
+    
   ## Check if method specified
   dotargs <- pairlist(...)
   if (any(names(dotargs) == "method"))
